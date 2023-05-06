@@ -1,0 +1,25 @@
+pipeline{
+ agent {
+     label 'master'
+ }   
+ 
+ tools{
+     jdk 'Java'
+     maven 'Maven'
+ }
+ 
+ stages{
+     stage('Git clone'){
+         steps{
+             git branch: 'master',
+             url: 'https://github.com/SaiTeja-Tholeti/LandmarkTechnology-maven-web-application.git'
+         }
+     }
+     
+     stage('Build'){
+         steps{
+             sh 'mvn clean package'
+         }
+     }
+ }
+}

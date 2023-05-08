@@ -11,6 +11,11 @@ pipeline{
       nexus_url = '172.31.3.187:8081'
       artifact_version = '4.0.0'
  }
+         choice(
+        name: 'Branch',
+        choices: ['master'],
+        description: 'Please choose any branch to build' )
+ } 
  
  tools{
      jdk 'Java'

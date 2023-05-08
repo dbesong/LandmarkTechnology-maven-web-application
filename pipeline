@@ -11,7 +11,8 @@ pipeline{
       nexus_url = '172.31.3.187:8081'
       artifact_version = '4.0.0'
  }
-         choice(
+        parameters {
+        choice(
         name: 'Branch',
         choices: ['master'],
         description: 'Please choose any branch to build' )
@@ -25,7 +26,7 @@ pipeline{
  stages{
      stage('Git clone'){
          steps{
-             git branch: 'master',
+             git branch: '${Branch}',
              url: 'https://github.com/SaiTeja-Tholeti/LandmarkTechnology-maven-web-application.git'
          }
      }

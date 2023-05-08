@@ -3,6 +3,15 @@ pipeline{
      label 'master'
  }   
  
+ environment {
+
+      sonar_url = 'http://172.31.8.161:9000'
+      sonar_username = 'admin'
+      sonar_password = 'admin'
+      nexus_url = '172.31.3.187:8081'
+      artifact_version = '4.0.0'
+ }
+ 
  tools{
      jdk 'Java'
      maven 'Maven'
@@ -16,10 +25,24 @@ pipeline{
          }
      }
      
-     stage('Build'){
-         steps{
-             sh 'mvn clean package'
-         }
+    stage('Maven build'){
+      steps{
+         sh 'mvn clean package'
+       } 
      }
- }
+     
+     stage ('Sonarqube Analysis'){
+           steps {
+           withSonarQubeEnv('Sonarqube') {
+           sh 'mvn -e -B sonar:sonar -Dsonar.java.source=1.8 -Dsonar.host.url="${sonar_url}" -Dsonar.login="${sonar_username}" -Dsonar.password="${sonar_password}" -Dsonar.sourceEncoding=UTF-8'
+           }
+         }
+      }
+      
+    stage ('Publish Artifact') {
+        steps {
+          nexusArtifactUploader artifacts: [[artifactId: 'maven-web-application', classifier: '', file: "target/Landmark.war", type: 'war']], credentialsId: 'nexus-cred', groupId: 'com.mt', nexusUrl: "${nexus_url}", nexusVersion: 'nexus3', protocol: 'http', repository: 'release', version: "${artifact_version}"
+        }
+      }
+   }
 }

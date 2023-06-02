@@ -1,22 +1,23 @@
 pipeline{
  agent {
      label 'master'
- }   
+ }  
  
- environment {
+   environment {
 
-      sonar_url = 'http://172.31.8.161:9000'
+      sonar_url = 'http://172.31.8.145:9000'
       sonar_username = 'admin'
       sonar_password = 'admin'
-      nexus_url = '172.31.3.187:8081'
+     nexus_url = '172.31.9.227:8081'
       artifact_version = '4.0.0'
- }
-        parameters {
+      }
+ 
+ parameters {
         choice(
         name: 'Branch',
         choices: ['master'],
         description: 'Please choose any branch to build' )
- } 
+ }
  
  tools{
      jdk 'Java'
@@ -31,13 +32,12 @@ pipeline{
          }
      }
      
-    stage('Maven build'){
-      steps{
-         sh 'mvn clean package'
-       } 
+     stage('Build'){
+         steps{
+             sh 'mvn clean package'
+         }
      }
-     
-     stage ('Sonarqube Analysis'){
+           stage ('Sonarqube Analysis'){
            steps {
            withSonarQubeEnv('Sonarqube') {
            sh 'mvn -e -B sonar:sonar -Dsonar.java.source=1.8 -Dsonar.host.url="${sonar_url}" -Dsonar.login="${sonar_username}" -Dsonar.password="${sonar_password}" -Dsonar.sourceEncoding=UTF-8'
@@ -45,10 +45,25 @@ pipeline{
          }
       }
       
-    stage ('Publish Artifact') {
+   stage ("Quality Gate")
+{
+   steps{
+     sleep(30)
+      script {
+       def qualitygate = waitForQualityGate()
+         if (qualitygate.status != 'OK') 
+             {
+            error "Pipeline aborted due to gate failure: ${qualitygate.status}"
+              }
+            }
+        }
+}
+
+stage ('Publish Artifact') {
         steps {
-          nexusArtifactUploader artifacts: [[artifactId: 'maven-web-application', classifier: '', file: "target/Landmark.war", type: 'war']], credentialsId: 'nexus-cred', groupId: 'com.mt', nexusUrl: "${nexus_url}", nexusVersion: 'nexus3', protocol: 'http', repository: 'release', version: "${artifact_version}"
+          nexusArtifactUploader artifacts: [[artifactId: 'maven-web-application', classifier: '', file: "target/Landmark.war", type: 'war']], credentialsId: 'cred-nexus', groupId: 'com.mt', nexusUrl: "${nexus_url}", nexusVersion: 'nexus3', protocol: 'http', repository: 'release', version: "${artifact_version}"
         }
       }
-   }
+}
+
 }

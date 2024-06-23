@@ -14,7 +14,7 @@
 	Landmark Technology is a an ideal online training  platform for DevOps and Cloud Infrastructures. 
 	Our anointed and extensive teaching approaches takes our students with or without any IT Background to become Subject Matter Expect in IT, Cloud, and DevOps automation.
 	Over 80% of our students are hired within 6 months of joining Landmark Technology, that's a fact.
-	Congratulations!! Welcome to Landmark Technology!! Welcome to your ENVIABLE IT CAREER.
+	Congratulations!! Welcome to Landmark Technology!! Welcome to your ENVIABLE IT CAREER. Review by my wife.
 	We offer interview preparations and job assitance.
 	The King is in our midst. His name is JESUS. What a wonderful it is. HE IS OUR SUCCESS ACCESS KEY.
 	Thanks for being an ambassador of Landmark Technology. President</h1>

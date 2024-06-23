@@ -17,20 +17,23 @@ pipeline{
       steps{
        sh "echo validate, compile, perform UnitTesting and build"
        sh "echo UnitTesting must passed for artifacts to be created"
-       sh "mvn clean package"
+       //sh "mvn clean package"
+       common("Build")
       }
 
     }
     stage('3.CodeQuality'){
       steps{
-         sh "mvn sonar:sonar"
+         //sh "mvn sonar:sonar"
+         common("SonarQube Report")
          sh "echo CodeQualityAnalysis completed"          
       }
 
     }
     stage('4.UploadArtifacts'){
       steps{
-          sh "mvn deploy" 
+          //sh "mvn deploy" 
+          common("upload to Nexus")
           sh "echo artifacts uploaded successfully"
           sh "echo I am now a Build and Release Engineer"
           sh "echo Build and release completed"         

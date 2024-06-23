@@ -1,1 +1,0 @@
-# LandmarkTechnology-maven-web-application#

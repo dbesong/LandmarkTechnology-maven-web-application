@@ -16,7 +16,7 @@ pipeline{
     stage('2.mvnBuild'){
       steps{
        sh "echo validate, compile, perform UnitTesting and build"
-       sh "echo UnitTesting must passed for artifacts to be created"
+       sh "echo UnitTesting must pass for artifacts to be created"
        sh "mvn clean package"
       }
 

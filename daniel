@@ -33,7 +33,7 @@ pipeline{
     stage('4.UploadArtifacts'){
       steps{
           //sh "mvn deploy" 
-          common("upload to Nexus")
+          common("upload into Nexus")
           sh "echo artifacts uploaded successfully"
           sh "echo I am now a Build and Release Engineer"
           sh "echo Build and release completed"         
